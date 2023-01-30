@@ -1,6 +1,5 @@
 Prerequisites
 I assume you have installed Docker, Docker-compose and it is running.
-See the Docker website for installation instructions.
 
 Build
 Clone this repo
