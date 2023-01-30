@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: db
+    image: postgres
+    environment:
+        POSTGRES_USER: "postgres"
+        POSTGRES_PASSWORD: "postgres"
+        POSTGRES_DB: "teste_jf"
+    ports:
+      - "5432:5432"
+
+  rabbit:
+    container_name: rabbit
+    image: rabbitmq:3-management
+    restart: always
+    environment:
+        RABBITMQ_DEFAULT_USER: "guest"
+        RABBITMQ_DEFAULT_PASS: "guest"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      
+  web:
+    container_name: api-jf-teste
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./application:/app
+      - /app/node_modules
+    depends_on:
+      - db
+      - rabbit
+    links:
+      - db
+      - rabbit
+    ports:
+      - "3000:3000"
+
